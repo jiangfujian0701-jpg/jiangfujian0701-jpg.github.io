@@ -17,7 +17,23 @@
     var key = await derive(pw, b64(env.salt), env.iter);
     var buf = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(env.iv) }, key, b64(env.ct));
     plain = JSON.parse(dec(buf));
-    try { localStorage.setItem(LS_DATA, JSON.stringify(plain)); localStorage.setItem(LS_PW, pw); } catch (e) {}
+    var sig = plain.length + ':' + ((plain[0] || {}).id || '') + ':' + ((plain[plain.length - 1] || {}).id || '');
+    var prev = null;
+    try {
+      prev = localStorage.getItem('nv_sig');
+      localStorage.setItem(LS_DATA, JSON.stringify(plain));
+      localStorage.setItem(LS_PW, pw);
+      localStorage.setItem('nv_sig', sig);
+      localStorage.setItem('nv_sig_ts', new Date().toISOString().slice(0, 16).replace('T', ' '));
+    } catch (e) {}
+    if (prev && prev !== sig) {
+      var guard = false;
+      try { guard = !!sessionStorage.getItem('nv_reload_guard'); } catch (e) {}
+      if (!guard) {
+        try { sessionStorage.setItem('nv_reload_guard', '1'); } catch (e) {}
+        setTimeout(function () { location.reload(); }, 180);
+      }
+    }
     return plain;
   }
 
@@ -85,6 +101,21 @@
     });
     return ask();
   }
+
+  window.__nvForceUpdate = function () {
+    try {
+      localStorage.removeItem(LS_DATA);
+      localStorage.removeItem('nv_sig');
+      sessionStorage.removeItem('nv_reload_guard');
+    } catch (e) {}
+    location.reload();
+  };
+  window.__nvDataInfo = function () {
+    try {
+      var d = JSON.parse(localStorage.getItem(LS_DATA) || '[]');
+      return { count: d.length, ts: localStorage.getItem('nv_sig_ts') || '' };
+    } catch (e) { return { count: 0, ts: '' }; }
+  };
 
   var dataPromise = null;
   window.fetch = function (input, init) {
