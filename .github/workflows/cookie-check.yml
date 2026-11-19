@@ -2,7 +2,7 @@ name: cookie-check
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 20 * * *"
+    - cron: "0 20 * * 0"
 permissions:
   contents: write
   issues: write
