@@ -1,10 +1,10 @@
 {
- "generated_at": "2026-11-19T20:35:13+00:00",
+ "generated_at": "2026-11-19T20:37:41+00:00",
  "snapshot_at": "2026-11-18",
  "bloggers": 936,
  "images_total": 1690,
  "images_local": 1689,
- "images_new": 1689,
+ "images_new": 0,
  "images_failed": 1,
  "failed_sample": [
   "avatars/lc_dip_400x400.jpg"
