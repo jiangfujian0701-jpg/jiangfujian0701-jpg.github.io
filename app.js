@@ -1146,6 +1146,13 @@ document.addEventListener('DOMContentLoaded', () => {
         matchesFilter = true;
       } else if (state.currentFilter === 'lost') {
         matchesFilter = true;
+      } else if (state.currentFilter === 'mega') {
+        matchesFilter = (user.followers_count || 0) >= 1000000;
+      } else if (state.currentFilter === 'new7') {
+        const t = Date.parse(user.backed_up_at || '') || 0;
+        matchesFilter = t > 0 && (Date.now() - t) <= 7 * 86400000;
+      } else if (state.currentFilter === 'nobio') {
+        matchesFilter = !(user.description || '').trim();
       }
 
       return matchesQuery && matchesFilter;
@@ -1460,7 +1467,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const isTopTier = (user.followers_count >= 500000);
-    const tierTag = isTopTier ? '头部创作者' : 'Creator';
+    const tierTag = isTopTier ? '头部创作者' : '创作者';
     const formattedBio = formatBioWithLinks(user.description);
 
     let statusBadgeHtml = '';
@@ -1604,7 +1611,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const isTopTier = (user.followers_count >= 500000);
-    const tierTag = isTopTier ? '头部创作者' : 'Creator';
+    const tierTag = isTopTier ? '头部创作者' : '创作者';
 
     rouletteBanner.style.backgroundImage = `url('${coverSrc}')`;
     rouletteAvatar.src = avatarSrc;
