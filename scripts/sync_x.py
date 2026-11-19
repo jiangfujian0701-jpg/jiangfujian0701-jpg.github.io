@@ -116,6 +116,19 @@ ADULT = ["onlyfans","fansly","fansone","fanbox","patreon","cosplay","コスプ�
 ORG = ["openai","grok","xai","anthropic","meta","google","microsoft","apple","github","nvidia","adobe","vercel","cloudflare","stripe","notion","figma","tesla","spacex","binance","coinbase","aws","azure","docker","unity","steam","discord","labs","inc.","llc","corp","foundation","university","institute","官方","公式","official","news","daily","times","bot","机器人","ai绘画","ai-generated"]
 
 
+def load_keywords():
+    import json as _j, os as _o
+    p = _o.path.join(_o.path.dirname(_o.path.dirname(_o.path.abspath(__file__))), "scripts/keywords.json")
+    try:
+        k = _j.load(open(p, encoding="utf-8"))
+        return [w.lower() for w in k.get("flat", [])], bool(k.get("strict", True))
+    except Exception:
+        return [], False
+
+
+KW_LIST, STRICT = load_keywords()
+
+
 def load_blocklist():
     import json as _j, os as _o
     p = _o.path.join(_o.path.dirname(_o.path.dirname(_o.path.abspath(__file__))), "scripts/blocklist.json")
@@ -220,6 +233,9 @@ def main():
             skipped.append((u["screen_name"], "blocklist"))
             continue
         kind, aw, ow = classify(u)
+        if STRICT and not any(w in ((u.get("description") or "") + " " + (u.get("name") or "")).lower() for w in KW_LIST):
+            skipped.append((u["screen_name"], "strict:no-keyword"))
+            continue
         if kind in ("org", "empty"):
             skipped.append((u["screen_name"], kind + ":" + (",".join(ow[:2]) if ow else "")))
             continue
