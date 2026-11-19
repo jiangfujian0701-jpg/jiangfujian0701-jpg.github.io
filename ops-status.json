@@ -1,14 +1,16 @@
 {
- "generated_at": "2026-11-19T20:33:48+00:00",
+ "generated_at": "2026-11-19T20:35:13+00:00",
  "snapshot_at": "2026-11-18",
  "bloggers": 936,
- "images_total": 0,
- "images_local": 0,
- "images_new": 0,
- "images_failed": 0,
- "failed_sample": [],
- "logo_kb": 1634,
- "repo_mb": 0,
+ "images_total": 1690,
+ "images_local": 1689,
+ "images_new": 1689,
+ "images_failed": 1,
+ "failed_sample": [
+  "avatars/lc_dip_400x400.jpg"
+ ],
+ "logo_kb": 215,
+ "repo_mb": 39.4,
  "self_hosted": false,
  "source_r2": "https://img.boomboom.nyc.mn"
 }
