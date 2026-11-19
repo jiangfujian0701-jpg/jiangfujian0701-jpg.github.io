@@ -1,0 +1,61 @@
+name: cookie-check
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 20 * * *"
+permissions:
+  contents: write
+  issues: write
+concurrency: {group: cookie-check, cancel-in-progress: true}
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: 单次探测 cookie 是否仍有效
+        id: probe
+        env:
+          NV_COOKIE: ${{ secrets.NV_COOKIE }}
+          NV_HANDLE: ${{ secrets.NV_HANDLE }}
+        run: |
+          python3 - <<'PY'
+          import json, os, re, urllib.request, urllib.error
+          cookie = os.environ["NV_COOKIE"].strip()
+          handle = os.environ.get("NV_HANDLE", "riverFujian")
+          ct0 = (re.search(r"ct0=([^;]+)", cookie) or [None, ""])[1]
+          url = ("https://x.com/i/api/graphql/AMIBMjtxEEATh4z8V9GtRg/UserByScreenName"
+                 "?variables=%7B%22screen_name%22%3A%22" + handle +
+                 "%22%2C%22withSafetyModeUserFields%22%3Atrue%7D&features=%7B%22rweb_video_screen_enabled%22%3Afalse%7D")
+          req = urllib.request.Request(url, headers={
+              "User-Agent": "Mozilla/5.0 (Linux; Android 14) Chrome/131 Mobile",
+              "Cookie": cookie,
+              "Authorization": "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA",
+              "x-csrf-token": ct0, "x-twitter-auth-type": "OAuth2Session",
+              "x-twitter-active-user": "yes", "Accept": "application/json"})
+          try:
+              with urllib.request.urlopen(req, timeout=20) as r:
+                  ok = r.status == 200
+                  print("status", r.status, "len", len(r.read()))
+          except urllib.error.HTTPError as e:
+              ok = False
+              print("status", e.code, e.read()[:120])
+          except Exception as e:
+              ok = False
+              print("error", type(e).__name__)
+          print("OK" if ok else "INVALID")
+          open("/tmp/result", "w").write("ok" if ok else "invalid")
+          PY
+      - name: 失效则开 issue（同标题只开一次）
+        if: success()
+        env: {GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"}
+        run: |
+          R=$(cat /tmp/result)
+          echo "cookie: $R"
+          if [ "$R" = "invalid" ]; then
+            if ! gh issue list --state open --search '"[cookie] X 登录态失效"' --json title --jq '.[].title' | grep -q 'cookie'; then
+              gh issue create --title "[cookie] X 登录态失效，自动同步已停" \
+                --body "自动检测：X 的 auth_token/ct0 已失效。重新导出后更新仓库 secret NV_COOKIE 即可恢复，然后关闭本 issue。"
+            fi
+            exit 1
+          fi
