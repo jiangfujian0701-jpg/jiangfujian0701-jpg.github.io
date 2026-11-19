@@ -1,5 +1,5 @@
-// Build-time static environment config (mirror)
+// Build-time static environment configuration (self-hosted mirror)
 window.__ENV__ = Object.freeze({
-  R2_PUBLIC_DOMAIN: "https://img.boomboom.nyc.mn",
-  GENERATED_AT: "2026-11-19T20:25:39.497447+00:00"
+  R2_PUBLIC_DOMAIN: "https://jiangfujian0701-jpg.github.io",
+  GENERATED_AT: "2026-11-19T20:33:48+00:00"
 });

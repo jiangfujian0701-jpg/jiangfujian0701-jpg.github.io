@@ -14,6 +14,11 @@
   
   <link rel="stylesheet" href="/style.css?v=3.0">
   <!-- Build-time Static Environment Config (0 Worker, 0ms Delay) -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#000000">
+  <link rel="apple-touch-icon" href="/logo-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <script src="/env-config.js"></script>
   <script src="/api-shim.js"></script>
 </head>
@@ -412,5 +417,6 @@
   </div>
 
   <script src="/app.js?v=3.0" type="module"></script>
-<!-- Cloudflare Pages Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "afacb0bcc101408eb6430f4d7d4c60b6"}'></script><!-- Cloudflare Pages Analytics --></body>
+<!-- Cloudflare Pages Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "afacb0bcc101408eb6430f4d7d4c60b6"}'></script><!-- Cloudflare Pages Analytics --><script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});}</script>
+</body>
 </html>

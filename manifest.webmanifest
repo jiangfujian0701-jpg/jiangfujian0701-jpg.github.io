@@ -1,0 +1,32 @@
+{
+ "name": "女菩萨 · X 博主精选画廊",
+ "short_name": "女菩萨",
+ "description": "X (Twitter) 创作者精选画廊 · 全量归档 · 随机探索",
+ "start_url": "/",
+ "scope": "/",
+ "display": "standalone",
+ "orientation": "portrait",
+ "background_color": "#000000",
+ "theme_color": "#000000",
+ "lang": "zh-CN",
+ "icons": [
+  {
+   "src": "/logo-icon.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "/icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "/icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any maskable"
+  }
+ ]
+}

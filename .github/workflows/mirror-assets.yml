@@ -1,0 +1,25 @@
+name: mirror-assets
+on:
+  workflow_dispatch:
+  schedule: [{cron: "30 20 * * *"}]
+  push: {branches: [main], paths: ["data/archive.json"]}
+permissions: {contents: write}
+concurrency: {group: mirror-assets, cancel-in-progress: false}
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install --quiet pillow
+      - run: python scripts/mirror_assets.py
+      - name: commit
+        run: |
+          git config user.name "YG-ops"
+          git config user.email "yg-ops@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "no change"; else
+            git commit -q -m "chore(assets): 自动转存头像/横幅并刷新运维快照"
+            git push -q origin HEAD:main
+          fi
