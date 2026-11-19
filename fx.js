@@ -23,12 +23,25 @@
       '<label class="nv-fx-row"><input type="checkbox" data-k="bg"> 星空背景</label>' +
       '<label class="nv-fx-row"><input type="checkbox" data-k="anim"> 抽卡动画</label>' +
       '<label class="nv-fx-row"><input type="checkbox" data-k="tilt"> 卡片倾斜</label>' +
-      '<div class="nv-fx-hint">低配手机可全关，滚动更顺</div>';
+      '<div class="nv-fx-hint">低配手机可全关，滚动更顺</div>' +
+      '<button id="nv-force" type="button">强制更新数据</button>' +
+      '<div class="nv-fx-info" id="nv-fx-info"></div>';
     document.body.appendChild(panel);
     Array.prototype.forEach.call(panel.querySelectorAll('input[data-k]'), function (i) {
       i.checked = !!st[i.getAttribute('data-k')];
       i.addEventListener('change', function () { st[i.getAttribute('data-k')] = i.checked; save(); });
     });
+    var fb = panel.querySelector('#nv-force'), fi = panel.querySelector('#nv-fx-info');
+    if (fb) fb.addEventListener('click', function () {
+      if (window.__nvForceUpdate) window.__nvForceUpdate(); else location.reload();
+    });
+    function paintInfo() {
+      if (!fi || !window.__nvDataInfo) return;
+      var d = window.__nvDataInfo();
+      fi.textContent = '数据 ' + d.count + ' 条 · ' + (d.ts || '—');
+    }
+    paintInfo(); setInterval(paintInfo, 2000);
+
     function toggle(force) {
       var open = force !== undefined ? force : !panel.classList.contains('open');
       panel.classList.toggle('open', open);
