@@ -1,0 +1,42 @@
+name: auto-update
+on:
+  workflow_dispatch:
+    inputs:
+      max_new: {description: "本轮最多新增人数", required: false, default: "40"}
+  schedule:
+    - cron: "0 21 * * *"
+permissions:
+  contents: write
+concurrency: {group: auto-update, cancel-in-progress: false}
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - uses: actions/setup-node@v4
+        with: {node-version: "20"}
+      - name: 解密数据
+        env: {PASS: "${{ secrets.NV_PASS }}"}
+        run: node scripts/decrypt.mjs
+      - name: 拉增量并合并
+        id: sync
+        env:
+          NV_COOKIE: ${{ secrets.NV_COOKIE }}
+          NV_HANDLE: ${{ secrets.NV_HANDLE }}
+          NV_MAX_NEW: ${{ github.event.inputs.max_new || '40' }}
+        run: python scripts/sync_x.py
+      - name: 重新加密
+        env: {PASS: "${{ secrets.NV_PASS }}"}
+        run: node scripts/encrypt_plain.mjs
+      - name: 提交
+        run: |
+          git config user.name "YG-ops"
+          git config user.email "yg-ops@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "no change"; else
+            git commit -q -m "auto: 新增 ${{ steps.sync.outputs.added }} / 刷新 ${{ steps.sync.outputs.updated }}（共 ${{ steps.sync.outputs.total }}）"
+            git push -q origin HEAD:main
+          fi
