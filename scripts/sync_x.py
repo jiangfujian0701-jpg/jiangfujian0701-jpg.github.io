@@ -116,6 +116,25 @@ ADULT = ["onlyfans","fansly","fansone","fanbox","patreon","cosplay","コスプ�
 ORG = ["openai","grok","xai","anthropic","meta","google","microsoft","apple","github","nvidia","adobe","vercel","cloudflare","stripe","notion","figma","tesla","spacex","binance","coinbase","aws","azure","docker","unity","steam","discord","labs","inc.","llc","corp","foundation","university","institute","官方","公式","official","news","daily","times","bot","机器人","ai绘画","ai-generated"]
 
 
+def load_blocklist():
+    import json as _j, os as _o
+    p = _o.path.join(_o.path.dirname(_o.path.dirname(_o.path.abspath(__file__))), "scripts/blocklist.json")
+    try:
+        b = _j.load(open(p, encoding="utf-8"))
+        return {h.lower() for h in b.get("handles", [])}, {x.lower() for x in b.get("patterns", [])}
+    except Exception:
+        return set(), set()
+
+
+BL_HANDLES, BL_PATTERNS = load_blocklist()
+
+
+def blocked(u):
+    sn = (u.get("screen_name") or "").lower()
+    t = ((u.get("description") or "") + " " + (u.get("name") or "") + " " + sn).lower()
+    return sn in BL_HANDLES or any(p in t for p in BL_PATTERNS)
+
+
 def classify(u):
     """adult=像创作者 / org=明显机构或工具号 / unknown=资料不足"""
     bio = (u.get("description") or "").lower()
@@ -178,6 +197,9 @@ def main():
     ts = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     added, skipped = [], []
     for u in fresh[:MAX_NEW]:
+        if blocked(u):
+            skipped.append((u["screen_name"], "blocklist"))
+            continue
         kind, aw, ow = classify(u)
         if kind in ("org", "empty"):
             skipped.append((u["screen_name"], kind + ":" + (",".join(ow[:2]) if ow else "")))

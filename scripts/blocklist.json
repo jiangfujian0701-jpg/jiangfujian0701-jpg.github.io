@@ -1,0 +1,19 @@
+{
+ "handles": [
+  "grok",
+  "openai",
+  "taroSwirl2026",
+  "ww_jp_official"
+ ],
+ "patterns": [
+  "openai",
+  "grok",
+  "xai",
+  "anthropic",
+  "official",
+  "官方",
+  "公式",
+  "bot",
+  "机器人"
+ ]
+}

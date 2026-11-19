@@ -301,11 +301,11 @@
         
         <!-- Single Pure Card (No outer white container or headers) -->
         <div class="roulette-floating-card" id="roulette-card-container">
-          <div class="roulette-banner" id="roulette-banner" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80');"></div>
+          <div class="roulette-banner" id="roulette-banner" style="background-image: url('/assets/cover-default.jpg');"></div>
           
           <div class="roulette-avatar-zone">
             <div style="position: relative; overflow: visible;">
-              <img id="roulette-avatar" class="roulette-avatar-img" src="https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png" alt="Avatar">
+              <img id="roulette-avatar" class="roulette-avatar-img" src="/assets/avatar-default.png" alt="Avatar">
               <span id="roulette-verified" class="badge-verified-native" style="bottom: 0; right: 0;">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
               </span>
@@ -396,7 +396,6 @@
 
   </div>
 
-  <script src="/app.js?v=3.0" type="module"></script>
-<!-- Cloudflare Pages Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "afacb0bcc101408eb6430f4d7d4c60b6"}'></script><!-- Cloudflare Pages Analytics --><script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});}</script>
+  <script src="/app.js?v=3.0" type="module"></script><script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});}</script>
 </body>
 </html>

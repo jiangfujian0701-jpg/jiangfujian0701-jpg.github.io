@@ -1019,7 +1019,7 @@ document.addEventListener('DOMContentLoaded', () => {
     img.dataset.failed = '1';
 
     if (type === 'avatar') {
-      img.src = 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png';
+      img.src = '/assets/avatar-default.png';
     } else {
       if (Array.isArray(fallbackCovers) && fallbackCovers.length > 0) {
         const seed = (rawUrl || img.alt || '').split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
@@ -1064,7 +1064,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (type === 'cover') {
         return '';
       }
-      return 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png';
+      return '/assets/avatar-default.png';
     }
     return safeUrl;
   }
@@ -1090,14 +1090,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderSpotlightCard(user) {
-    const rawAvatar = user.avatar_url || 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png';
+    const rawAvatar = user.avatar_url || '/assets/avatar-default.png';
     const avatar = resolveMediaUrl(rawAvatar);
     const isTopTier = (user.followers_count >= 500000);
     const tag = isTopTier ? '头部创作者' : 'Creator';
 
     spotlightContent.innerHTML = `
       <div class="spotlight-avatar-wrap" onclick="window.trackBloggerClick('${escapeHtml(user.screen_name)}', 'card'); window.open('https://x.com/${user.screen_name}', '_blank')">
-        <img class="spotlight-avatar" src="${avatar}" alt="${escapeHtml(user.name)}" onerror="this.src='https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png';">
+        <img class="spotlight-avatar" src="${avatar}" alt="${escapeHtml(user.name)}" onerror="this.src='/assets/avatar-default.png';">
         ${user.verified ? `<div class="badge-verified-native" style="bottom: 2px; right: 2px;" title="Twitter 官方认证">${ICONS.verifiedNative}</div>` : ''}
       </div>
       <div class="spotlight-meta">
@@ -1454,7 +1454,7 @@ document.addEventListener('DOMContentLoaded', () => {
     card.setAttribute('tabindex', '0');
     card.style.animationDelay = `${Math.min(idx * 20, 250)}ms`;
 
-    const rawAvatar = user.avatar_url || 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png';
+    const rawAvatar = user.avatar_url || '/assets/avatar-default.png';
     const avatarSrc = resolveMediaUrl(rawAvatar, 'avatar');
     
     let rawCover = user.cover_url || '';
@@ -1599,7 +1599,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderRouletteCardPreview(user, isFinal) {
-    const rawAvatar = user.avatar_url || 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png';
+    const rawAvatar = user.avatar_url || '/assets/avatar-default.png';
     const avatarSrc = resolveMediaUrl(rawAvatar, 'avatar');
     let rawCover = user.cover_url || '';
     let coverSrc = '';
@@ -1668,7 +1668,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function openInspectorDrawer(user) {
-    const rawAvatar = user.avatar_url || 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png';
+    const rawAvatar = user.avatar_url || '/assets/avatar-default.png';
     const avatar = resolveMediaUrl(rawAvatar, 'avatar');
     const rawCover = user.cover_url || '';
     let cover = '';
@@ -1742,7 +1742,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <!-- Floating Avatar & Tags Row -->
         <div class="polaroid-profile-row">
           <div class="polaroid-avatar-wrap">
-            <img class="polaroid-avatar-img" src="${avatar}" alt="${escapeHtml(user.name)}" onerror="this.src='https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png';">
+            <img class="polaroid-avatar-img" src="${avatar}" alt="${escapeHtml(user.name)}" onerror="this.src='/assets/avatar-default.png';">
             ${user.verified ? `<div class="badge-verified-native" title="Twitter 官方认证">${ICONS.verifiedNative}</div>` : ''}
           </div>
           <div class="polaroid-tags-group">
