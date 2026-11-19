@@ -112,6 +112,25 @@ def pull(op, uid, cap):
     return out
 
 
+ADULT = ["onlyfans","fansly","fansone","fanbox","patreon","cosplay","コスプレ","写真","私房","福利","资源","约拍","模特","主播","图包","18+","nsfw","私密","女菩萨","电报","telegram","商务","接稿","拍摄","ドール","グラビア","모델","lingerie","写真集","写真部","性感","美女","情欲","成人"]
+ORG = ["openai","grok","xai","anthropic","meta","google","microsoft","apple","github","nvidia","adobe","vercel","cloudflare","stripe","notion","figma","tesla","spacex","binance","coinbase","aws","azure","docker","unity","steam","discord","labs","inc.","llc","corp","foundation","university","institute","官方","公式","official","news","daily","times","bot","机器人","ai绘画","ai-generated"]
+
+
+def classify(u):
+    """adult=像创作者 / org=明显机构或工具号 / unknown=资料不足"""
+    bio = (u.get("description") or "").lower()
+    name = (u.get("name") or "").lower()
+    sn = (u.get("screen_name") or "").lower()
+    t = bio + " " + name + " " + sn
+    a = [k for k in ADULT if k in t]
+    o = [k for k in ORG if k in t]
+    if o and not a:
+        return "org", a, o
+    if a:
+        return "adult", a, o
+    return "unknown", a, o
+
+
 def dl(url, tag, root):
     if not url:
         return ""
@@ -155,8 +174,12 @@ def main():
     print("候选 %d 个，其中新增 %d 个（本轮上限 %d）" % (len(candidates), len(fresh), MAX_NEW), flush=True)
 
     ts = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-    added = []
+    added, skipped = [], []
     for u in fresh[:MAX_NEW]:
+        kind, aw, ow = classify(u)
+        if kind == "org":
+            skipped.append((u["screen_name"], ",".join(ow[:2])))
+            continue
         av = dl(u["avatar_url"], "avatar", root)
         cv = dl(u["cover_url"], "cover", root)
         added.append({"id": u["id"], "screen_name": u["screen_name"], "name": u["name"],
@@ -178,6 +201,8 @@ def main():
             old["description"] = u["description"]; changed = True
         if changed:
             old["last_synced_at"] = ts; updated += 1
+    if skipped:
+        print("已跳过非创作者账号 %d 个：%s" % (len(skipped), skipped[:10]))
     arch.extend(added)
     json.dump(arch, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     print("本轮：新增 %d，刷新 %d，库内总数 %d，请求状态 %s，熔断 %s" % (
