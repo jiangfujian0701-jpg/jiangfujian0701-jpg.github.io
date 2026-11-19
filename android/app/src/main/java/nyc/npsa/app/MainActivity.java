@@ -2,6 +2,10 @@ package nyc.npsa.app;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -59,6 +63,23 @@ public class MainActivity extends Activity {
                 }
             }
         });
+        web.setOnLongClickListener(v -> {
+            final String[] opts = new java.lang.String[]{"复制当前链接", "刷新", "回到首页"};
+            new AlertDialog.Builder(this).setItems(opts, (d, i) -> {
+                if (i == 0) {
+                    try {
+                        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        cm.setPrimaryClip(ClipData.newPlainText("url", web.getUrl()));
+                    } catch (Exception ignored) {}
+                } else if (i == 1) {
+                    web.reload();
+                } else {
+                    web.loadUrl(HOME);
+                }
+            }).show();
+            return true;
+        });
+        web.setLongClickable(false);
         web.loadUrl(HOME);
         setContentView(web);
     }
