@@ -5785,3 +5785,16 @@ html,body,button,input,select,textarea{font-family:-apple-system,BlinkMacSystemF
 #nv-gate-go:disabled{opacity:.6}
 .nv-gate-msg{min-height:16px;font-size:12px;color:#f87171}
 .nv-gate-remember{font-size:12px;color:#8b8b93;display:flex;align-items:center;gap:6px}
+
+/* ---- 动效开关 ---- */
+html.nv-no-bg #bg-particles-canvas{display:none!important}
+html.nv-no-bg body{background-image:none!important}
+html.nv-no-anim *,html.nv-no-anim *::before,html.nv-no-anim *::after{animation-duration:.001s!important;animation-delay:0s!important;transition-duration:.001s!important;transition-delay:0s!important}
+html.nv-no-tilt .tilt-card-wrap{transform:none!important}
+#nv-fx-btn{position:fixed;right:14px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:9998;width:38px;height:38px;border-radius:50%;border:1px solid #26262f;background:rgba(13,13,16,.86);color:#b9b9c4;font-size:15px;line-height:1;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+#nv-fx-panel{position:fixed;right:14px;bottom:calc(62px + env(safe-area-inset-bottom));z-index:9999;width:184px;padding:12px 14px;border-radius:14px;border:1px solid #26262f;background:rgba(13,13,16,.96);backdrop-filter:blur(12px);color:#e8e8ea;font-size:13px;opacity:0;pointer-events:none;transform:translateY(6px);transition:opacity .16s ease,transform .16s ease}
+#nv-fx-panel.open{opacity:1;pointer-events:auto;transform:none}
+.nv-fx-title{font-size:12px;color:#8b8b93;margin-bottom:8px;letter-spacing:.4px}
+.nv-fx-row{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px}
+.nv-fx-row input{accent-color:#7c8cff;width:15px;height:15px}
+.nv-fx-hint{margin-top:8px;font-size:11px;color:#6d6d78;line-height:1.5}
