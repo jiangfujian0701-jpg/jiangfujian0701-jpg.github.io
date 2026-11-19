@@ -126,6 +126,8 @@ def classify(u):
     o = [k for k in ORG if k in t]
     if o and not a:
         return "org", a, o
+    if not bio.strip():
+        return "empty", a, o   # 空简介直接跳过
     if a:
         return "adult", a, o
     return "unknown", a, o
@@ -177,8 +179,8 @@ def main():
     added, skipped = [], []
     for u in fresh[:MAX_NEW]:
         kind, aw, ow = classify(u)
-        if kind == "org":
-            skipped.append((u["screen_name"], ",".join(ow[:2])))
+        if kind in ("org", "empty"):
+            skipped.append((u["screen_name"], kind + ":" + (",".join(ow[:2]) if ow else "")))
             continue
         av = dl(u["avatar_url"], "avatar", root)
         cv = dl(u["cover_url"], "cover", root)
