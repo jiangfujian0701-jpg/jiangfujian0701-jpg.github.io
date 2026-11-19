@@ -5768,3 +5768,20 @@ code, kbd {
   }
 }
 
+
+/* ---- 系统字体（零外链） ---- */
+html,body,button,input,select,textarea{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Noto Sans CJK SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif}
+/* ---- 入口门禁 ---- */
+#nv-gate{position:fixed;inset:0;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;padding:24px;transition:opacity .2s ease}
+#nv-gate.nv-gate-out{opacity:0;pointer-events:none}
+.nv-gate-card{width:100%;max-width:320px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.nv-gate-mark{width:56px;height:56px;border-radius:16px;border:1.5px solid #2a2a35;position:relative;margin-bottom:6px}
+.nv-gate-mark:after{content:"";position:absolute;inset:16px;border:1.5px solid #e8e8ea;border-radius:50%}
+.nv-gate-title{font-size:17px;font-weight:700;color:#e8e8ea}
+.nv-gate-sub{font-size:12px;color:#8b8b93}
+#nv-gate-pw{width:100%;margin-top:6px;padding:12px 14px;border-radius:12px;border:1px solid #26262f;background:#0d0d10;color:#e8e8ea;font-size:15px;outline:none}
+#nv-gate-pw:focus{border-color:#4a4a5c}
+#nv-gate-go{width:100%;padding:12px;border-radius:12px;border:1px solid #2a2a35;background:#16161c;color:#e8e8ea;font-size:14px;font-weight:600}
+#nv-gate-go:disabled{opacity:.6}
+.nv-gate-msg{min-height:16px;font-size:12px;color:#f87171}
+.nv-gate-remember{font-size:12px;color:#8b8b93;display:flex;align-items:center;gap:6px}
