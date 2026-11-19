@@ -1,16 +1,14 @@
 {
- "generated_at": "2026-11-19T20:37:41+00:00",
+ "generated_at": "2026-11-19T20:39:09+00:00",
  "snapshot_at": "2026-11-18",
  "bloggers": 936,
  "images_total": 1690,
- "images_local": 1689,
+ "images_local": 1690,
  "images_new": 0,
- "images_failed": 1,
- "failed_sample": [
-  "avatars/lc_dip_400x400.jpg"
- ],
+ "images_failed": 0,
+ "failed_sample": [],
  "logo_kb": 215,
  "repo_mb": 39.4,
- "self_hosted": false,
+ "self_hosted": true,
  "source_r2": "https://img.boomboom.nyc.mn"
 }
