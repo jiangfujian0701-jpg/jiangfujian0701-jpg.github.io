@@ -5798,3 +5798,7 @@ html.nv-no-tilt .tilt-card-wrap{transform:none!important}
 .nv-fx-row{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px}
 .nv-fx-row input{accent-color:#7c8cff;width:15px;height:15px}
 .nv-fx-hint{margin-top:8px;font-size:11px;color:#6d6d78;line-height:1.5}
+
+#nv-force{width:100%;margin-top:10px;padding:9px 0;border-radius:10px;border:1px solid #2a2a35;background:#16161c;color:#e8e8ea;font-size:12.5px}
+#nv-force:active{background:#20202a}
+.nv-fx-info{margin-top:6px;font-size:10.5px;color:#5f5f6b;text-align:center;font-variant-numeric:tabular-nums}
