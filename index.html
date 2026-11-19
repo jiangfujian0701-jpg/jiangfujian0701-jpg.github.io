@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>女菩萨 · 私人归档画廊</title>
+  <title>AI画廊 · AI 画廊</title>
   <meta name="description" content="私人收藏的创作者档案索引 · 本地留存 · 仅供个人查阅">
   <link rel="icon" type="image/png" sizes="96x96" href="/assets/mark-96.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/mark-32.png">
@@ -38,10 +38,10 @@
         <div class="header-brand-group">
           <a href="/" class="brand-link">
             <div class="brand-avatar">
-              <img src="/logo-icon.png" alt="女菩萨" class="brand-img" onerror="this.style.display='none'">
+              <img src="/logo-icon.png" alt="AI画廊" class="brand-img" onerror="this.style.display='none'">
             </div>
             <div class="brand-text">
-              <span class="brand-name">女菩萨</span>
+              <span class="brand-name">AI画廊</span>
             </div>
           </a>
         </div>
@@ -53,7 +53,7 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" id="global-search" placeholder="搜索博主 ID (@handle)、昵称或简介 Bio..." autocomplete="off" spellcheck="false" aria-label="搜索博主">
+            <input type="text" id="global-search" placeholder="搜索创作者 ID (@handle)、昵称或简介 Bio..." autocomplete="off" spellcheck="false" aria-label="搜索创作者">
             <button id="search-clear-btn" class="search-clear-btn hidden" title="清空搜索 (ESC)" aria-label="清空搜索">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
@@ -65,7 +65,7 @@
         <div class="header-actions">
           
           <!-- Random Discovery Roulette Button (React-Bits Slot Machine) -->
-          <button class="btn-lucky-pick" id="btn-lucky-pick" title="随机探索一位博主 (快捷键: R)">
+          <button class="btn-lucky-pick" id="btn-lucky-pick" title="随机探索一位创作者 (快捷键: R)">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect width="12" height="12" x="2" y="10" rx="2" ry="2"/>
               <path d="m17.92 14 3.5-3.5a2.41 2.41 0 0 0 0-3.41l-4.5-4.5a2.41 2.41 0 0 0-3.41 0L10 6.08"/>
@@ -104,7 +104,7 @@
           <div class="hero-left-intro">
             <div class="hero-eyebrow">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-              <span>私人归档库</span>
+              <span>归档库</span>
             </div>
             <h1 class="hero-title"><span class="shiny-text">归档画廊</span></h1>
             <p class="hero-description">个人收藏的创作者档案 · 去重留存 · 仅限本人查阅</p>
@@ -241,7 +241,7 @@
                   <svg class="check-icon hidden" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
                 <div class="menu-item" data-val="name-asc" role="option">
-                  <span>博主名称 (A → Z)</span>
+                  <span>创作者名称 (A → Z)</span>
                   <svg class="check-icon hidden" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
                 <div class="menu-item" data-val="recent" role="option">
@@ -265,7 +265,7 @@
         <!-- Infinite Scroll Sentinel Indicator -->
         <div id="infinite-scroll-sentinel" class="infinite-scroll-loading hidden">
           <div class="infinite-spinner"></div>
-          <span>加载更多博主中...</span>
+          <span>加载更多创作者中...</span>
         </div>
 
         <!-- Empty State 1: Database Empty -->
@@ -273,7 +273,7 @@
           <div class="empty-icon-wrap" style="color: var(--accent-gold); background: var(--accent-gold-subtle);">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
           </div>
-          <h3 class="empty-title">当前归档库尚无博主数据</h3>
+          <h3 class="empty-title">当前归档库尚无创作者数据</h3>
           <p class="empty-desc">您可以前往管理后台一键同步 X (Twitter) 关注列表。</p>
           <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 6px;">
             <a href="/admin" class="btn-primary-action">
@@ -288,8 +288,8 @@
           <div class="empty-icon-wrap">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
           </div>
-          <h3 class="empty-title">未找到匹配的博主</h3>
-          <p class="empty-desc">没有匹配到任何符合搜索条件或分类的博主，您可以尝试清除关键词。</p>
+          <h3 class="empty-title">未找到匹配的创作者</h3>
+          <p class="empty-desc">没有匹配到任何符合搜索条件或分类的创作者，您可以尝试清除关键词。</p>
           <button class="btn-reset-filters" id="btn-reset-filters">重置筛选条件</button>
         </div>
       </section>
@@ -316,10 +316,10 @@
 
           <div class="roulette-info-zone">
             <div class="roulette-name-row">
-              <span id="roulette-name" class="roulette-name">博主昵称</span>
+              <span id="roulette-name" class="roulette-name">创作者昵称</span>
             </div>
             <span id="roulette-handle" class="roulette-handle">@handle · 0 关注者</span>
-            <div id="roulette-bio" class="roulette-bio">博主简介信息正在流转...</div>
+            <div id="roulette-bio" class="roulette-bio">创作者简介信息正在流转...</div>
           </div>
         </div>
 
@@ -345,7 +345,7 @@
       <aside class="inspector-drawer" id="inspector-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-user-name">
         <div class="drawer-header">
           <div class="drawer-title-group">
-            <span class="drawer-badge-tag" id="drawer-badge-tag">博主档案</span>
+            <span class="drawer-badge-tag" id="drawer-badge-tag">创作者档案</span>
             <span class="drawer-meta-tip">按 ESC 关闭</span>
           </div>
           <button class="drawer-close-btn" id="drawer-close-btn" title="关闭 (ESC)" aria-label="关闭详情">
@@ -375,9 +375,9 @@
       <div class="footer-inner">
         <div class="footer-row-top">
           <div class="footer-left">
-            <span style="font-weight: 700; color: var(--text-main);">女菩萨</span>
+            <span style="font-weight: 700; color: var(--text-main);">AI画廊</span>
             <span class="dot-sep">·</span>
-            <span>私人归档库</span>
+            <span>归档库</span>
           </div>
           <div class="footer-right">
             <a href="/admin" class="footer-link">运维面板</a>
