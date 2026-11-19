@@ -19,6 +19,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <script src="/env-config.js"></script>
   <script src="/boot.js"></script>
+  <script src="/fx.js" defer></script>
 </head>
 <body>
 
@@ -115,7 +116,7 @@
                 </div>
                 <div class="capsule-data">
                   <span class="capsule-number" id="stat-verified-chip">0%</span>
-                  <span class="capsule-label">蓝标认证</span>
+                  <span class="capsule-label">官方认证</span>
                 </div>
               </div>
 
@@ -163,32 +164,41 @@
               <span>全部</span>
               <span class="pill-badge" id="badge-count-all">0</span>
             </button>
-            <button class="f-pill" data-filter="hot" title="按访客点击跳转 X 主页的热度排行">
+            <button class="f-pill" data-filter="hot" title="按点击热度排序">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
-              <span>热度排行</span>
+              <span>点击热度</span>
               <span class="pill-badge" id="badge-count-hot">0</span>
             </button>
             <button class="f-pill" data-filter="verified">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg>
-              <span>蓝标认证</span>
+              <span>官方认证</span>
               <span class="pill-badge" id="badge-count-verified">0</span>
             </button>
             <button class="f-pill" data-filter="top">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
-              <span>Top 头部 (50万+)</span>
+              <span>大号 (50万+)</span>
             </button>
             <button class="f-pill" data-filter="100k">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-              <span>知名创作者 (10万+)</span>
+              <span>中坚 (10万+)</span>
+            </button>
+            <button class="f-pill" data-filter="mega" title="粉丝 100 万以上">
+              <span>百万+</span>
+            </button>
+            <button class="f-pill" data-filter="new7" title="最近 7 天入库的档案">
+              <span>7 天内</span>
+            </button>
+            <button class="f-pill" data-filter="nobio" title="简介为空的档案，方便补全">
+              <span>无简介</span>
             </button>
             <button class="f-pill" data-filter="recent">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              <span>最新归档</span>
+              <span>最近入库</span>
               <span class="pill-badge" id="badge-count-recent">0</span>
             </button>
-            <button class="f-pill" data-filter="lost" title="X 官方已被封号或注销的博主档案（赛博坟场）">
+            <button class="f-pill" data-filter="lost" title="已封号或注销的档案">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 10h.01"/><path d="M15 10h.01"/><path d="M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z"/></svg>
-              <span>赛博坟场</span>
+              <span>沉寂档案</span>
               <span class="pill-badge tombstone" id="badge-count-lost">0</span>
             </button>
           </div>
