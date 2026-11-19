@@ -17,13 +17,13 @@ def keys():
 
 def fetch(key):
     dst = os.path.join(ROOT, key)
-    if os.path.exists(dst) and os.path.getsize(dst) > 1200: return key, "skip"
+    if os.path.exists(dst) and os.path.getsize(dst) > 200: return key, "skip"
     os.makedirs(os.path.dirname(dst), exist_ok=True)
     for a in range(3):
         try:
             with urllib.request.urlopen(urllib.request.Request(SRC + "/" + key, headers=UA), timeout=40) as r:
                 b = r.read()
-            if len(b) > 1200:
+            if len(b) > 200:
                 open(dst, "wb").write(b); return key, "new"
             return key, "tiny"
         except Exception as e:
@@ -55,7 +55,7 @@ def main():
             elif st == "skip": skip += 1
             else: fail += 1; fails.append(k)
     lkb = logo()
-    local = sum(1 for k in ks if os.path.exists(os.path.join(ROOT, k)) and os.path.getsize(os.path.join(ROOT, k)) > 1200)
+    local = sum(1 for k in ks if os.path.exists(os.path.join(ROOT, k)) and os.path.getsize(os.path.join(ROOT, k)) > 200)
     total_mb = 0
     for dp, _, fs in os.walk(ROOT):
         if "/.git" in dp: continue
