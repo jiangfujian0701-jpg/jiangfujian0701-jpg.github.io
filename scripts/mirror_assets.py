@@ -6,7 +6,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 UA = {"User-Agent": "Mozilla/5.0 (mirror-bot)"}
 
 def keys():
-    d = json.load(open(os.path.join(ROOT, "data/archive.json"), encoding="utf-8"))
+    p = os.path.join(ROOT, "data/archive.json")
+    if not os.path.exists(p):
+        return [], []
+    d = json.load(open(p, encoding="utf-8"))
     out = []
     for it in d:
         for f in ("avatar_url", "cover_url"):
@@ -55,6 +58,10 @@ def main():
             elif st == "skip": skip += 1
             else: fail += 1; fails.append(k)
     lkb = logo()
+    if not ks:
+        mdir = os.path.join(ROOT, "media")
+        local = len([f for f in os.listdir(mdir)]) if os.path.isdir(mdir) else 0
+        ks = ["media/x"] * local
     local = sum(1 for k in ks if os.path.exists(os.path.join(ROOT, k)) and os.path.getsize(os.path.join(ROOT, k)) > 200)
     total_mb = 0
     for dp, _, fs in os.walk(ROOT):
