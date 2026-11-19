@@ -1,5 +1,5 @@
 const VER = 'nv-v3';
-const SHELL = ['/', '/index.html', '/app.js?v=3.0', '/style.css?v=3.0', '/boot.js', '/env-config.js',
+const SHELL = ['/', '/index.html', '/app.js?v=3.0', '/style.css?v=3.0', '/boot.js', '/fx.js', '/env-config.js',
                '/runtime-config.json', '/manifest.webmanifest', '/assets/mark-192.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(VER).then(c => c.addAll(SHELL).catch(()=>{})).then(()=>self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== VER && !k.startsWith('nv-img')).map(k => caches.delete(k)))).then(()=>self.clients.claim())); });
