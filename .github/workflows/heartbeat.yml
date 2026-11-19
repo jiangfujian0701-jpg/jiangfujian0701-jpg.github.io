@@ -1,0 +1,31 @@
+name: heartbeat
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 1 * *"
+permissions:
+  contents: write
+jobs:
+  beat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: 写入心跳时间戳，避免 60 天无活动导致定时任务被禁用
+        run: |
+          git config user.name "YG-ops"
+          git config user.email "yg-ops@users.noreply.github.com"
+          python3 - <<'PY'
+          import json, datetime, os
+          p = "ops-status.json"
+          try:
+              d = json.load(open(p, encoding="utf-8"))
+          except Exception:
+              d = {}
+          d["heartbeat"] = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
+          json.dump(d, open(p, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+          print("heartbeat", d["heartbeat"])
+          PY
+          git add ops-status.json
+          git commit -q -m "chore: 月度心跳（保持定时工作流存活）"
+          git push -q origin HEAD:main
