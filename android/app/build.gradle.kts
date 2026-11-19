@@ -10,8 +10,20 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
+    signingConfigs {
+        create("fixed") {
+            storeFile = file("keystore.jks")
+            storePassword = "npsa-keystore-2026"
+            keyAlias = "npsa"
+            keyPassword = "npsa-keystore-2026"
+        }
+    }
     buildTypes {
-        getByName("release") { isMinifyEnabled = false }
+        getByName("debug") { signingConfig = signingConfigs.getByName("fixed") }
+        getByName("release") {
+            isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("fixed")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
