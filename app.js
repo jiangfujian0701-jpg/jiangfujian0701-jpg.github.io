@@ -1,11 +1,6 @@
-/**
- * Nv-Pu-Sa (X-Archive) v2 - Client Application & React-Bits Motion Engine
- * Synthesized: Karpathy (Discrete Column Masonry) · UI-UX-Pro-Max (OLED/Light) · Impeccable (Native Badge & Frameless Modal) · React-Bits (Slot Machine Shuffle) · Better-Icons
- */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ==================== Sample Data for Instant Preview ====================
   const defaultSampleData = [
     {
       "id": "1280938963541221376",
@@ -81,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ];
 
-  // SVG Icon Templates (Iconify / Lucide & Phosphor Standard)
   const ICONS = {
     verifiedNative: `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"><polyline points="20 6 9 17 4 12"/></svg>`,
     users: `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
@@ -96,13 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
     chevronDown: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>`
   };
 
-  // Canvas Color Extraction Engine for Dynamic Ambient Glow
   const sampleCanvas = document.createElement('canvas');
   sampleCanvas.width = 16;
   sampleCanvas.height = 16;
   const sampleCtx = sampleCanvas.getContext('2d', { willReadFrequently: true });
 
-  // 12 Evenly Distributed Spectral Neon Accents for Creators
   const VIBRANT_ACCENTS = [
     '244, 63, 94',    // Rose Red (350°)
     '236, 72, 153',   // Neon Pink (330°)
@@ -162,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return VIBRANT_ACCENTS[Math.abs(hash) % VIBRANT_ACCENTS.length];
   }
 
-  // Chrominance-Peak HSL Dominant Color Extractor
   function extractDominantColor(img, defaultKey = 'creator') {
     try {
       sampleCtx.clearRect(0, 0, 16, 16);
@@ -180,10 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (pa < 100) continue;
 
         const [h, s, l] = rgbToHsl(pr, pg, pb);
-        // Ignore gray, pure white, pure black
         if (s < 0.18 || l < 0.12 || l > 0.90) continue;
 
-        // Exponential weight for high-chroma pixels (e.g. neon, hair, apparel, background highlights)
         const weight = Math.pow(s, 2.2) * (1 - Math.abs(l - 0.5) * 1.4);
         const bIdx = Math.floor(h / 30) % 12;
         buckets[bIdx] += weight;
@@ -208,19 +197,16 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const winningHue = Math.round(hueSums[bestBucket] / buckets[bestBucket]);
-      // Optimize vibrancy for OLED: high saturation (82%) and optimal lightness (58%)
       return hslToRgb(winningHue, 0.82, 0.58);
     } catch (e) {
       return getFallbackAccent(defaultKey);
     }
   }
 
-  // 专属极速霓虹光谱氛围色：零额外网络请求、零 CORS 隐患、100% 稳定出图
   function extractDominantColorWithProbe(imgSrc, fallbackKey, onColorReady) {
     if (!imgSrc || imgSrc.startsWith('data:')) return;
     try {
       const urlObj = new URL(imgSrc, window.location.href);
-      // 仅对完全同源资源或本地代理资源尝试探针，杜绝浏览器底层向控制台抛出任何跨域阻断红字
       if (urlObj.origin !== window.location.origin) {
         return;
       }
@@ -238,7 +224,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {}
   }
 
-  // ==================== 1. Canvas Starfield Particles Background ====================
   function initCanvasParticles() {
     const canvas = document.getElementById('bg-particles-canvas');
     if (!canvas) return;
@@ -304,7 +289,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initCanvasParticles();
 
-  // ==================== 1.5 Blogger Click Tracking Engine (Anti-Spam + Offline Queue + Smart Batch Flush) ====================
   const CLICK_COOLDOWN_MS = 10 * 60 * 1000; // 10 minutes anti-spam per blogger per browser
   const OFFLINE_QUEUE_KEY = 'x_offline_click_queue';
   const TIMESTAMPS_KEY = 'x_blogger_click_timestamps';
@@ -381,17 +365,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const handleKey = screenName.toLowerCase();
     const now = Date.now();
 
-    // 1. 同博主 10 分钟防刷检查 (Anti-Spam 10-Minute Cooldown)
     const timestamps = getBloggerClickTimestamps();
     const lastClick = timestamps[handleKey] || 0;
     if (now - lastClick < CLICK_COOLDOWN_MS) {
-      // 冷却期内：照常允许用户跳转推特，但跳过热度上报，杜绝连击刷榜
       return;
     }
     timestamps[handleKey] = now;
     saveBloggerClickTimestamps(timestamps);
 
-    // 2. 本地即时响应：直接更新内存数据
     const targetUser = state.rawUsers.find(u => (u.screen_name || '').toLowerCase() === handleKey);
     if (targetUser) {
       targetUser.clicks_card = targetUser.clicks_card || 0;
@@ -404,7 +385,6 @@ document.addEventListener('DOMContentLoaded', () => {
       targetUser.total_clicks++;
     }
 
-    // 3. 写入本地离线队列 (Offline Queue)
     const queue = getOfflineClickQueue();
     if (!queue[handleKey]) {
       queue[handleKey] = {
@@ -421,7 +401,6 @@ document.addEventListener('DOMContentLoaded', () => {
     queue[handleKey].total++;
     saveOfflineClickQueue(queue);
 
-    // 4. 触发 60 秒严格节流防抖合并上报（非紧急外跳不单发）
     scheduleClickFlush(MIN_FLUSH_INTERVAL_MS);
   }
 
@@ -438,15 +417,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const keys = Object.keys(queue);
     if (keys.length === 0) return;
 
-    // 阀门：单设备每日 20 次网络上报上限守护
     const flushCount = getDailyNetworkFlushCount();
     if (flushCount >= MAX_DAILY_NETWORK_FLUSHES) {
-      // 当天网络上报配额已达 20 次：安静保存在本地 LocalStorage，不再向边缘发包，保护后端配额
       return;
     }
 
     const now = Date.now();
-    // 非强制模式下，若距离上次上报未满 60 秒且队列少于 5 条，继续留在本地合并
     if (!force && (now - lastFlushTimestamp < MIN_FLUSH_INTERVAL_MS) && keys.length < 5) {
       return;
     }
@@ -454,14 +430,12 @@ document.addEventListener('DOMContentLoaded', () => {
     isFlushingClicks = true;
     lastFlushTimestamp = now;
 
-    // 制作本次提交快照 (Snapshot for Ack verification)
     const batchList = keys.map(k => queue[k]);
     const snapshotKeys = new Set(keys);
 
     try {
       const payload = JSON.stringify({ batch: batchList });
 
-      // 页面进入后台离开且支持 Beacon 时，使用标准 sendBeacon 传输，零阻塞页面
       if (document.visibilityState === 'hidden' && typeof navigator.sendBeacon === 'function') {
         const blob = new Blob([payload], { type: 'application/json' });
         const sent = navigator.sendBeacon('/api/track-click?tk=v2', blob);
@@ -489,21 +463,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const json = await res.json().catch(() => ({}));
         if (json.success) {
           recordDailyNetworkFlush();
-          // 收到确认：安全销毁本次成功提交的快照项，防止重复提交
           const currentQueue = getOfflineClickQueue();
           snapshotKeys.forEach(k => delete currentQueue[k]);
           saveOfflineClickQueue(currentQueue);
         }
       }
     } catch (err) {
-      // 遇到网络离线或 1027 额度降级：保留本地队列，平滑无报错
       console.warn('[Track Engine] Click batch report deferred (offline/rate-limited):', err);
     } finally {
       isFlushingClicks = false;
     }
   }
 
-  // 监听页面生命周期：跳出或切到后台时，只有当队列累积较多 (>= 3 条) 且达到时间窗口时才上报
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') {
       const queue = getOfflineClickQueue();
@@ -522,7 +493,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 页面初次加载后，延迟 8 秒轻量检查一次是否有历史离线残留数据需要同步
   setTimeout(() => {
     const queue = getOfflineClickQueue();
     if (Object.keys(queue).length > 0) {
@@ -532,7 +502,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.trackBloggerClick = trackBloggerClick;
 
-  // ==================== 2. State Store (Default Theme: OLED) ====================
   const PAGE_SIZE = 12;
   const state = {
     rawUsers: [],
@@ -543,7 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
     currentFilter: 'all',
     currentSort: 'followers-desc',
     currentView: 'grid', // 'grid' | 'compact' | 'list'
-    currentTheme: localStorage.getItem('x_archive_v2_theme') || 'oled',
+    currentTheme: localStorage.getItem('nv_theme') || 'oled',
     searchQuery: '',
     isShuffling: false,
     isLoadingMore: false
@@ -558,7 +527,6 @@ document.addEventListener('DOMContentLoaded', () => {
     'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&auto=format&fit=crop&q=80'
   ];
 
-  // DOM Elements Cache
   const htmlRoot = document.documentElement;
   const bloggerWall = document.getElementById('blogger-wall');
   const emptyStateDb = document.getElementById('empty-state-db');
@@ -568,7 +536,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const globalSearch = document.getElementById('global-search');
   const searchClearBtn = document.getElementById('search-clear-btn');
   
-  // Hero & Stats
   const statTotalChip = document.getElementById('stat-total-chip');
   const statVerifiedChip = document.getElementById('stat-verified-chip');
   const statMaxChip = document.getElementById('stat-max-chip');
@@ -576,7 +543,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const spotlightContent = document.getElementById('spotlight-dynamic-content');
   const btnShuffleSpotlight = document.getElementById('btn-shuffle-spotlight');
 
-  // Filter Pills & Badges
   const filterPills = document.querySelectorAll('.f-pill');
   const badgeCountAll = document.getElementById('badge-count-all');
   const badgeCountHot = document.getElementById('badge-count-hot');
@@ -586,21 +552,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultsCountText = document.getElementById('results-count-text');
   const btnResetFilters = document.getElementById('btn-reset-filters');
 
-  // Sort Menu
   const sortTriggerBtn = document.getElementById('sort-trigger-btn');
   const sortMenu = document.getElementById('sort-menu');
   const sortCurrentText = document.getElementById('sort-current-text');
   const sortMenuItems = document.querySelectorAll('.select-dropdown-menu .menu-item');
 
-  // View Switchers
   const viewTabs = document.querySelectorAll('.view-tab-btn');
 
-  // Pure Icon Dual-Theme Toggle Button
   const themeBtn = document.getElementById('theme-btn');
   const themeIconSun = document.getElementById('theme-icon-sun');
   const themeIconMoon = document.getElementById('theme-icon-moon');
 
-  // Lucky Pick Frameless Roulette Modal Elements
   const btnLuckyPick = document.getElementById('btn-lucky-pick');
   const rouletteBackdrop = document.getElementById('random-roulette-backdrop');
   const rouletteCardContainer = document.getElementById('roulette-card-container');
@@ -616,13 +578,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnReshuffleAgain = document.getElementById('btn-reshuffle-again');
   const btnRouletteVisit = document.getElementById('btn-roulette-visit');
 
-  // Standard Inspector Drawer (for regular card click)
   const inspectorBackdrop = document.getElementById('inspector-backdrop');
   const drawerCloseBtn = document.getElementById('drawer-close-btn');
   const drawerBody = document.getElementById('drawer-body-content');
   const toastContainer = document.getElementById('toast-container');
-
-  // ==================== 3. React-Bits Motion Modules ====================
 
   function animateCountUp(element, endVal, duration = 1000, isPercent = false, isFollowers = false) {
     if (!element) return;
@@ -806,11 +765,10 @@ document.addEventListener('DOMContentLoaded', () => {
     attach3DTilt(heroSpotlightCard, 6);
   }
 
-  // ==================== 4. Pure Icon Dual-Theme Toggle Engine (OLED by Default) ====================
   function applyTheme(theme) {
     state.currentTheme = theme === 'light' ? 'light' : 'oled';
     htmlRoot.setAttribute('data-theme', state.currentTheme);
-    localStorage.setItem('x_archive_v2_theme', state.currentTheme);
+    localStorage.setItem('nv_theme', state.currentTheme);
 
     if (state.currentTheme === 'light') {
       themeIconSun?.classList.remove('hidden');
@@ -832,7 +790,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   applyTheme(state.currentTheme);
 
-  // Close Sort menu when clicking outside
   document.addEventListener('click', (e) => {
     if (!sortMenu?.contains(e.target) && !sortTriggerBtn?.contains(e.target)) {
       sortMenu?.classList.add('hidden');
@@ -840,23 +797,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ==================== 5. Fetch Archive Data (HA Multi-Track: Config-Ready -> LocalCache -> R2 Direct CDN -> Static Local) ====================
   async function initArchiveData() {
     let hasLocalRendered = false;
 
-    // 自动补发可能积攒的离线点击队列 (Auto-flush offline clicks)
     try {
       flushPendingClickQueue();
     } catch (e) {}
 
-    // 【时序保障】：渲染前确保 R2 域名配置就绪（有 window.__ENV__ 时 0ms，无时快速读取，杜绝头像穿透打 Worker）
-    if (!R2_CDN_BASE) {
+    if (!CDN_BASE) {
       await fetchServerRuntimeConfig();
     }
 
-    // Track 0: 本地 LocalStorage 极速直出（此时 R2_CDN_BASE 已经绝对有值，杜绝头像退化打 Worker）
     try {
-      const cached = localStorage.getItem('x_archive_cached_data');
+      const cached = localStorage.getItem('nv_data');
       if (cached) {
         const localData = JSON.parse(cached);
         if (Array.isArray(localData) && localData.length > 0) {
@@ -870,22 +823,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (e) {}
 
-    // 若之前未拿到，二次确认
-    if (!R2_CDN_BASE) {
+    if (!CDN_BASE) {
       await fetchServerRuntimeConfig();
     }
 
-    // Track 1: R2 公共 CDN 极速直链 (100% 静态免函数、免 D1、实时更新且无用量上限 — 极速首选)
     let freshLoaded = false;
-    if (R2_CDN_BASE) {
+    if (CDN_BASE) {
       try {
-        const r2Url = `${R2_CDN_BASE}/data/archive.json`;
+        const r2Url = `${CDN_BASE}/data/archive.json`;
         const r2Res = await fetch(r2Url);
         if (r2Res.ok) {
           const r2Data = await r2Res.json();
           if (Array.isArray(r2Data) && r2Data.length > 0) {
             state.rawUsers = r2Data;
-            localStorage.setItem('x_archive_cached_data', JSON.stringify(r2Data));
+            localStorage.setItem('nv_data', JSON.stringify(r2Data));
             freshLoaded = true;
           }
         }
@@ -894,12 +845,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // 若已经有本地渲染且 R2 偶发网络波动，直接熔断退出，坚决不向后端倾泻动态流量
     if (hasLocalRendered && !freshLoaded) {
       return;
     }
 
-    // Track 2: 站点同源静态 JSON 兜底 (Free, Zero Rate-Limits, Unlimited Traffic)
     if (!freshLoaded && !hasLocalRendered) {
       try {
         const staticRes = await fetch('/data/archive.json');
@@ -907,7 +856,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const staticData = await staticRes.json();
           if (Array.isArray(staticData) && staticData.length > 0) {
             state.rawUsers = staticData;
-            localStorage.setItem('x_archive_cached_data', JSON.stringify(staticData));
+            localStorage.setItem('nv_data', JSON.stringify(staticData));
             freshLoaded = true;
           }
         }
@@ -916,7 +865,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // 最终全链路兜底
     if (!freshLoaded && !hasLocalRendered) {
       fallbackToLocalStorage();
     }
@@ -928,7 +876,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function fallbackToLocalStorage() {
-    const cached = localStorage.getItem('x_archive_cached_data');
+    const cached = localStorage.getItem('nv_data');
     if (cached) {
       try {
         const list = JSON.parse(cached);
@@ -942,14 +890,13 @@ document.addEventListener('DOMContentLoaded', () => {
   btnLoadSampleData?.addEventListener('click', (e) => {
     triggerClickSpark(e, 14, 'var(--accent-gold)');
     state.rawUsers = defaultSampleData;
-    localStorage.setItem('x_archive_cached_data', JSON.stringify(defaultSampleData));
+    localStorage.setItem('nv_data', JSON.stringify(defaultSampleData));
     updateHeroAndMetrics();
     pickSpotlightCreator();
     applyFilterAndSort();
     showToast('已成功载入样例博主数据进行画廊体验！');
   });
 
-  // ==================== 6. Metrics & Hero Spotlight ====================
   function formatFollowers(num) {
     if (!num) return '0';
     if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
@@ -959,11 +906,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateHeroAndMetrics() {
     const total = state.rawUsers.length;
-    // 存活活跃博主（排除赛博坟场已封号/注销博主）
     const aliveUsers = state.rawUsers.filter(u => !u.is_suspended || u.is_suspended === 0);
     const aliveTotal = aliveUsers.length;
 
-    // 归档总数包含全站所有归档博主（含赛博坟场）
     animateCountUp(statTotalChip, total, 1000);
 
     if (total === 0) {
@@ -983,7 +928,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const maxFollowers = aliveUsers.length > 0 ? Math.max(...aliveUsers.map(u => u.followers_count || 0)) : 0;
     animateCountUp(statMaxChip, maxFollowers, 1400, false, true);
 
-    // 计算 7 天内最新归档的存活博主数
     const now = Date.now();
     const sevenDaysMs = 7 * 24 * 3600 * 1000;
     const recentCount = aliveUsers.filter(u => {
@@ -1002,8 +946,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (badgeCountLost) badgeCountLost.textContent = lostCount.toString();
   }
 
-  // ==================== R2 边缘 CDN 域名自适应解析引擎 ====================
-  function normalizeR2Domain(domain) {
+  function normalizeCdn(domain) {
     if (!domain) return '';
     let clean = String(domain).trim().replace(/\/+$/, '');
     if (!clean || clean === 'none' || clean === 'false') return '';
@@ -1013,57 +956,52 @@ document.addEventListener('DOMContentLoaded', () => {
     return clean;
   }
 
-  let R2_CDN_BASE = (function() {
-    // 1. 同步优先读取构建时注入的静态配置 window.__ENV__.R2_PUBLIC_DOMAIN（0ms 就绪，0 Worker 消耗，代码中零硬编码）
-    if (typeof window !== 'undefined' && window.__ENV__ && window.__ENV__.R2_PUBLIC_DOMAIN) {
-      return normalizeR2Domain(window.__ENV__.R2_PUBLIC_DOMAIN);
+  let CDN_BASE = (function() {
+    if (typeof window !== 'undefined' && window.__ENV__ && window.__ENV__.CDN_BASE) {
+      return normalizeCdn(window.__ENV__.CDN_BASE);
     }
-    // 2. 本地持久化缓存
     try {
-      const cachedLocal = localStorage.getItem('x_archive_r2_domain');
-      if (cachedLocal) return normalizeR2Domain(cachedLocal);
-      const cachedSession = sessionStorage.getItem('x_archive_r2_domain');
-      if (cachedSession) return normalizeR2Domain(cachedSession);
+      const cachedLocal = localStorage.getItem('nv_cdn');
+      if (cachedLocal) return normalizeCdn(cachedLocal);
+      const cachedSession = sessionStorage.getItem('nv_cdn');
+      if (cachedSession) return normalizeCdn(cachedSession);
     } catch (e) {}
     return '';
   })();
 
-  function setR2CdnDomain(domain) {
+  function setCdnBase(domain) {
     if (domain === null || domain === undefined) return;
-    const clean = normalizeR2Domain(domain);
-    R2_CDN_BASE = clean;
+    const clean = normalizeCdn(domain);
+    CDN_BASE = clean;
     try {
       if (clean) {
-        localStorage.setItem('x_archive_r2_domain', clean);
-        sessionStorage.setItem('x_archive_r2_domain', clean);
+        localStorage.setItem('nv_cdn', clean);
+        sessionStorage.setItem('nv_cdn', clean);
       }
     } catch (e) {}
   }
 
-  // 运行时配置探测引擎：优先静态 runtime-config.json（0 Worker 消耗），次选 /api/config
   let runtimeConfigPromise = null;
   function fetchServerRuntimeConfig() {
     if (runtimeConfigPromise) return runtimeConfigPromise;
     runtimeConfigPromise = (async () => {
-      // 1. 静态 CDN 构建产物优先（100% 免 Functions，用量耗尽时亦可秒开）
       try {
         const staticRes = await fetch('/runtime-config.json');
         if (staticRes.ok) {
           const staticCfg = await staticRes.json();
-          if (staticCfg && staticCfg.r2_public_domain) {
-            setR2CdnDomain(staticCfg.r2_public_domain);
+          if (staticCfg && staticCfg.cdn_base) {
+            setCdnBase(staticCfg.cdn_base);
             return staticCfg;
           }
         }
       } catch (e) {}
 
-      // 2. 动态云端 Functions 降级读取（云端 Functions 在线时生效）
       try {
         const res = await fetch('/api/config');
         if (res.ok) {
           const cfg = await res.json();
-          if (cfg && cfg.r2_public_domain) {
-            setR2CdnDomain(cfg.r2_public_domain);
+          if (cfg && cfg.cdn_base) {
+            setCdnBase(cfg.cdn_base);
             return cfg;
           }
         }
@@ -1075,13 +1013,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   fetchServerRuntimeConfig();
 
-  // 全局媒体图片加载容错引擎：防击穿与一次性降级（杜绝发起 Worker 代理请求，绝对保护配额）
   window.handleMediaImgError = function(img, rawUrl, type) {
     if (!img) return;
     if (img.dataset.failed) return; // 已经处理过，防止死循环
     img.dataset.failed = '1';
 
-    // 终极降级：展示官方静态默认头像或精美预设艺术封面（坚决不向 /api/media 发送代理请求）
     if (type === 'avatar') {
       img.src = 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png';
     } else {
@@ -1095,7 +1031,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // 安全加固工具：URL 协议白名单校验，彻底阻断 javascript: 伪协议 XSS
   function sanitizeUrl(url) {
     if (!url || typeof url !== 'string') return '';
     const trimmed = url.trim();
@@ -1111,24 +1046,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const safeUrl = sanitizeUrl(url);
     if (!safeUrl) return '';
     
-    // 1. 只有真正已归档至 R2 的资源 (/api/media?key=...)，才路由至 R2 CDN 直链
-    if (R2_CDN_BASE && safeUrl.includes('/api/media') && safeUrl.includes('key=')) {
+    if (false) {
       try {
         const dummyUrl = new URL(safeUrl, window.location.origin);
         const key = dummyUrl.searchParams.get('key');
         if (key) {
-          return `${R2_CDN_BASE}/${key.replace(/^\/+/, '')}`;
+          return `${CDN_BASE}/${key.replace(/^\/+/, '')}`;
         }
       } catch (e) {}
     }
 
-    // 2. 原生相对路径或已处理路径直接返回
-    if (safeUrl.startsWith('/api/media') || safeUrl.startsWith('data:') || safeUrl.startsWith('/')) {
+    if (safeUrl.startsWith('/avatars/') || safeUrl.startsWith('/covers/') || safeUrl.startsWith('data:') || safeUrl.startsWith('/')) {
       return safeUrl;
     }
 
-    // 3. 未归档的 Twitter 原链：
-    // 封面坚决不打 Worker，直接返回空由调用处走本地 fallbackCovers
     if (safeUrl.includes('twimg.com')) {
       if (type === 'cover') {
         return '';
@@ -1149,7 +1080,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // 过滤掉已封号 (is_suspended = 1) 和已注销 (is_suspended = 2) 的博主
     const activeUsers = state.rawUsers.filter(u => !u.is_suspended || u.is_suspended === 0);
     const basePool = activeUsers.length > 0 ? activeUsers : state.rawUsers;
     const candidates = basePool.filter(u => u.followers_count >= 50000 || u.verified);
@@ -1163,7 +1093,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const rawAvatar = user.avatar_url || 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png';
     const avatar = resolveMediaUrl(rawAvatar);
     const isTopTier = (user.followers_count >= 500000);
-    const tag = isTopTier ? 'Top Creator' : 'Creator';
+    const tag = isTopTier ? '头部创作者' : 'Creator';
 
     spotlightContent.innerHTML = `
       <div class="spotlight-avatar-wrap" onclick="window.trackBloggerClick('${escapeHtml(user.screen_name)}', 'card'); window.open('https://x.com/${user.screen_name}', '_blank')">
@@ -1186,14 +1116,12 @@ document.addEventListener('DOMContentLoaded', () => {
     pickSpotlightCreator();
   });
 
-  // ==================== 7. Filtering & Sorting Engine ====================
   function applyFilterAndSort() {
     const query = state.searchQuery.trim().toLowerCase();
 
     state.filteredUsers = state.rawUsers.filter(user => {
       const isLost = (user.is_suspended === 1 || user.is_suspended === 2);
 
-      // 严格隔离赛博坟场：如果当前不是 lost 分类，绝不展示封号/注销博主！
       if (state.currentFilter === 'lost') {
         if (!isLost) return false;
       } else {
@@ -1251,7 +1179,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     resultsCountText.textContent = `共呈现 ${state.filteredUsers.length} 位博主归档`;
     
-    // Reset columns and start fresh render
     state.renderedCount = 0;
     initMasonryStructure();
     renderMoreCards();
@@ -1274,7 +1201,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const isHot = filterName === 'hot';
     const options = isHot ? SORT_OPTIONS.hot : SORT_OPTIONS.default;
 
-    // 检查当前排序值是否在当前类目的合法列表中
     const isValid = options.some(o => o.val === state.currentSort);
     if (!isValid) {
       if (isHot) {
@@ -1377,7 +1303,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ==================== 8. Karpathy Discrete Column Masonry Engine (Zero Layout Shifting) ====================
   function getResponsiveColumnCount(view) {
     const w = window.innerWidth;
     if (view === 'list') return 1;
@@ -1386,7 +1311,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (w <= 1024) return 3;
       return 4; // Desktop default
     }
-    // grid view
     if (w <= 640) return 1;
     if (w <= 1024) return 2;
     return 3; // Desktop default
@@ -1398,10 +1322,8 @@ document.addEventListener('DOMContentLoaded', () => {
     state.columnElements = [];
 
     if (state.currentView === 'list') {
-      // List view is a single vertical container
       state.columnElements = [bloggerWall];
     } else {
-      // Responsive discrete columns (Mobile: 1 for Grid / 2 for Compact; Desktop: 3 for Grid / 4 for Compact)
       const numCols = getResponsiveColumnCount(state.currentView);
       for (let i = 0; i < numCols; i++) {
         const col = document.createElement('div');
@@ -1423,7 +1345,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentCount = state.renderedCount;
         state.renderedCount = 0;
         initMasonryStructure();
-        // Re-render currently rendered cards count
         const target = Math.max(PAGE_SIZE, currentCount);
         const total = state.filteredUsers.length;
         const renderLimit = Math.min(target, total);
@@ -1485,7 +1406,6 @@ document.addEventListener('DOMContentLoaded', () => {
       initMasonryStructure();
     }
 
-    // Surgical Incremental Append: Append new card directly into shortest column without disturbing existing cards
     for (let i = startIndex; i < endIndex; i++) {
       const user = state.filteredUsers[i];
       const card = createBloggerCardElement(user, i);
@@ -1493,7 +1413,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (state.currentView === 'list') {
         bloggerWall.appendChild(card);
       } else {
-        // Find column with minimum height
         let shortestCol = state.columnElements[0];
         let minHeight = shortestCol.offsetHeight;
 
@@ -1533,8 +1452,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let rawCover = user.cover_url || '';
     let coverSrc = '';
-    // 只有已归档至 R2 的封面才请求 CDN，未归档的 Twitter 原链直接走精美本地预设背景（0 次 Worker 消耗）
-    if (rawCover && rawCover.includes('/api/media') && rawCover.includes('key=')) {
+    if (rawCover && rawCover.indexOf('/covers/') === 0) {
       coverSrc = resolveMediaUrl(rawCover, 'cover');
     }
     if (!coverSrc) {
@@ -1542,7 +1460,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const isTopTier = (user.followers_count >= 500000);
-    const tierTag = isTopTier ? 'Top Creator' : 'Creator';
+    const tierTag = isTopTier ? '头部创作者' : 'Creator';
     const formattedBio = formatBioWithLinks(user.description);
 
     let statusBadgeHtml = '';
@@ -1594,12 +1512,10 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
-    // Initialize deterministic vibrant palette immediately
     const initialRgb = isTombstone ? '148, 163, 184' : getFallbackAccent(user.screen_name || user.name);
     card.style.setProperty('--card-accent-rgb', initialRgb);
     card.style.setProperty('--card-accent', `rgb(${initialRgb})`);
 
-    // Dynamic Ambient Color Refinement via Progressive CORS Probe (零裂图风险，真实像素精准自适应)
     if (!isTombstone && avatarSrc) {
       extractDominantColorWithProbe(avatarSrc, user.screen_name || user.name, (refinedRgb) => {
         card.style.setProperty('--card-accent-rgb', refinedRgb);
@@ -1617,7 +1533,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return card;
   }
 
-  // Infinite Scroll Listener
   window.addEventListener('scroll', () => {
     if (state.isLoadingMore) return;
     if (state.renderedCount >= state.filteredUsers.length) return;
@@ -1631,7 +1546,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ==================== 9. Frameless Slot Machine Decelerating Random Roulette Modal ====================
   function startRandomRouletteShuffle() {
     if (state.rawUsers.length === 0) {
       showToast('归档库中暂无博主数据，请先同步或载入样例数据');
@@ -1641,30 +1555,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (state.isShuffling) return;
     state.isShuffling = true;
 
-    // Open center frameless modal
     rouletteBackdrop.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
 
-    // Hide actions during shuffle
     rouletteOutsideActions?.classList.remove('is-visible');
     rouletteDismissHint?.classList.remove('is-visible');
 
     rouletteCardContainer.classList.remove('is-settled');
     rouletteCardContainer.classList.add('is-shuffling');
 
-    // 过滤掉已封号 (is_suspended = 1) 和已注销 (is_suspended = 2) 的博主，确保只抽取正常活跃的博主
     const activeUsers = state.rawUsers.filter(u => !u.is_suspended || u.is_suspended === 0);
     const pool = activeUsers.length > 0 ? activeUsers : state.rawUsers;
     
-    // 30+ Frames Realistic Slot Machine Deceleration Curve:
-    // Phase 1: High-speed dash (20 frames, ~28ms each, dazzling motion blur)
-    // Phase 2: Deceleration braking (9 frames, physical brake stagger)
     const dashFrames = Array(20).fill(28);
     const brakingFrames = [45, 70, 110, 165, 240, 340, 470, 620, 800];
     const delays = [...dashFrames, ...brakingFrames];
     let stepIndex = 0;
 
-    // Pick final target winner
     const winnerIndex = Math.floor(Math.random() * pool.length);
     const winnerUser = pool[winnerIndex];
 
@@ -1689,7 +1596,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const avatarSrc = resolveMediaUrl(rawAvatar, 'avatar');
     let rawCover = user.cover_url || '';
     let coverSrc = '';
-    if (rawCover && rawCover.includes('/api/media') && rawCover.includes('key=')) {
+    if (rawCover && rawCover.indexOf('/covers/') === 0) {
       coverSrc = resolveMediaUrl(rawCover, 'cover');
     }
     if (!coverSrc) {
@@ -1697,7 +1604,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const isTopTier = (user.followers_count >= 500000);
-    const tierTag = isTopTier ? 'Top Creator' : 'Creator';
+    const tierTag = isTopTier ? '头部创作者' : 'Creator';
 
     rouletteBanner.style.backgroundImage = `url('${coverSrc}')`;
     rouletteAvatar.src = avatarSrc;
@@ -1712,23 +1619,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function finalizeRouletteWinner(user) {
-    // 1. 倒数第二张卡片顺着滚轮惯性向上平滑滚出 (140ms)
     rouletteCardContainer.classList.add('is-rolling-out');
 
     setTimeout(() => {
-      // 2. 注入获胜博主数据
       renderRouletteCardPreview(user, true);
 
-      // 3. 移除滚出状态，触发最终卡片从下方滑入 + 拟真弹性卡扣回弹落定 (Spring Bounce)
       rouletteCardContainer.classList.remove('is-rolling-out', 'is-shuffling');
       void rouletteCardContainer.offsetWidth; // 强制触发 CSS 关键帧重绘
       rouletteCardContainer.classList.add('is-settled');
       state.isShuffling = false;
 
-      // 4. 触发金色粒子爆破与星芒礼花
       triggerLuxuryCelebrationFireworks(rouletteCardContainer);
 
-      // 5. 平滑展现底部操作栏
       setTimeout(() => {
         rouletteOutsideActions?.classList.add('is-visible');
         rouletteDismissHint?.classList.add('is-visible');
@@ -1758,13 +1660,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === rouletteBackdrop) closeRouletteModal();
   });
 
-  // ==================== 10. Inspector Detail Drawer (Polaroid Time Capsule & Mutation Timeline) ====================
   function openInspectorDrawer(user) {
     const rawAvatar = user.avatar_url || 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png';
     const avatar = resolveMediaUrl(rawAvatar, 'avatar');
     const rawCover = user.cover_url || '';
     let cover = '';
-    if (rawCover && rawCover.includes('/api/media') && rawCover.includes('key=')) {
+    if (rawCover && rawCover.indexOf('/covers/') === 0) {
       cover = resolveMediaUrl(rawCover, 'cover');
     }
     if (!cover) {
@@ -1917,7 +1818,6 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
-    // Initialize drawer ambient tint immediately
     const initialDrawerRgb = isTombstone ? '148, 163, 184' : getFallbackAccent(user.screen_name || user.name);
     drawerBody.style.setProperty('--card-accent-rgb', initialDrawerRgb);
     drawerBody.style.setProperty('--card-accent', `rgb(${initialDrawerRgb})`);
@@ -1939,14 +1839,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Copy Handle Handler
     document.getElementById('btn-copy-handle')?.addEventListener('click', (e) => {
       triggerClickSpark(e, 8, 'var(--card-accent)');
       navigator.clipboard.writeText(`@${user.screen_name}`);
       showToast(`已复制 @${user.screen_name} 到剪贴板`);
     });
 
-    // Copy Markdown Card Handler
     document.getElementById('btn-copy-markdown')?.addEventListener('click', (e) => {
       triggerClickSpark(e, 10, 'var(--card-accent)');
       const mdContent = `### ${user.name} (@${user.screen_name})\n\n- **粉丝数**：${formatFollowers(user.followers_count)}\n- **认证状态**：${user.verified ? '已蓝标认证' : '未认证'}\n- **归档编号**：${vaultNo}\n- **首次收录**：${archiveDateStr}\n- **已留存**：${daysSinceArchive} 天\n- **个人简介**：${user.description || '暂无简介'}\n- **主页链接**：https://x.com/${user.screen_name}`;
@@ -1954,13 +1852,11 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast('已复制博主 Markdown 档案卡到剪贴板');
     });
 
-    // Send Candle / Memorial Spark Handler
     document.getElementById('btn-send-candle')?.addEventListener('click', (e) => {
       triggerLuxuryCelebrationFireworks(e.currentTarget);
       showToast(`已为 @${user.screen_name} 点亮一盏赛博微光`);
     });
 
-    // Mutation Timeline Lazy Loader
     const historyDetails = document.getElementById('drawer-history-details');
     const historyList = document.getElementById('drawer-history-list');
     let historyLoaded = false;
@@ -2008,7 +1904,6 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
           }).join('');
         } else {
-          // If no history in D1 yet, show initial archive creation event
           const initialDate = user.backed_up_at ? new Date(user.backed_up_at).toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '首次归档';
           historyList.innerHTML = `
             <div class="timeline-item">
@@ -2057,7 +1952,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === inspectorBackdrop) closeInspectorDrawer();
   });
 
-  // ==================== 11. Toast Notification System ====================
   function showToast(message) {
     const toast = document.createElement('div');
     toast.className = 'toast-item';
@@ -2076,7 +1970,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2400);
   }
 
-  // ==================== 12. Utilities ====================
   function formatBioWithLinks(text) {
     if (!text) return '暂无个人简介';
     let safe = escapeHtml(text);
@@ -2099,7 +1992,6 @@ document.addEventListener('DOMContentLoaded', () => {
     })[m]);
   }
 
-  // ==================== 13. Global Keyboard Shortcuts ====================
   document.addEventListener('keydown', (e) => {
     if (e.key === '/' && document.activeElement !== globalSearch) {
       e.preventDefault();
@@ -2133,7 +2025,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ==================== 14. Back to Top Floating Interactive Button ====================
   const btnBackToTop = document.getElementById('btn-back-to-top');
   if (btnBackToTop) {
     let isScrollTicking = false;
@@ -2161,7 +2052,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Start initialization
   initArchiveData();
 
 });
