@@ -157,23 +157,38 @@ def classify(u):
 
 
 def dl(url, tag, root):
+    """下载图片并直接转 WebP（失败则退回 jpg）"""
     if not url:
         return ""
     if tag == "cover" and not re.search(r"/\d+x\d+$", url):
         url = url.rstrip("/") + "/1500x500"
     h = hashlib.sha256((url + tag).encode()).hexdigest()[:20]
-    rel = "media/%s.jpg" % h
-    dst = os.path.join(root, rel)
-    if os.path.exists(dst) and os.path.getsize(dst) > 300:
-        return "/" + rel
+    for ext in (".webp", ".jpg"):
+        p = os.path.join(root, "media/" + h + ext)
+        if os.path.exists(p) and os.path.getsize(p) > 300:
+            return "/media/" + h + ext
     for _ in range(2):
         try:
             with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": H["User-Agent"]}), timeout=25) as r:
                 b = r.read()
-            if len(b) > 300:
-                os.makedirs(os.path.dirname(dst), exist_ok=True)
-                open(dst, "wb").write(b)
-                return "/" + rel
+            if len(b) <= 300:
+                continue
+            rel, data = "/media/%s.jpg" % h, b
+            try:
+                from PIL import Image
+                import io
+                im = Image.open(io.BytesIO(b)).convert("RGB")
+                if max(im.size) > 1200:
+                    im.thumbnail((1200, 1200), Image.LANCZOS)
+                buf = io.BytesIO()
+                im.save(buf, "WEBP", quality=80, method=4)
+                rel, data = "/media/%s.webp" % h, buf.getvalue()
+            except Exception:
+                pass
+            dst = os.path.join(root, rel.lstrip("/"))
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            open(dst, "wb").write(data)
+            return rel
         except Exception:
             time.sleep(1)
     return ""
