@@ -4,7 +4,7 @@ on:
     inputs:
       max_new: {description: "本轮最多新增人数", required: false, default: "40"}
   schedule:
-    - cron: "0 21 * * *"
+    - cron: "0 21 * * 0"
 permissions:
   contents: write
 concurrency: {group: auto-update, cancel-in-progress: false}
