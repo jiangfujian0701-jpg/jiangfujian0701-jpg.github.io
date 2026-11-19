@@ -1,4 +1,4 @@
-const VER = 'nv-v3';
+const VER = 'nv-v4';
 const SHELL = ['/', '/index.html', '/app.js?v=3.0', '/style.css?v=3.0', '/boot.js', '/fx.js', '/ui.js', '/env-config.js',
                '/runtime-config.json', '/manifest.webmanifest', '/assets/mark-192.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(VER).then(c => c.addAll(SHELL).catch(()=>{})).then(()=>self.skipWaiting())); });
