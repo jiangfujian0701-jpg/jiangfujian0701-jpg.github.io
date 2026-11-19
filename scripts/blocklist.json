@@ -1,19 +1,28 @@
 {
  "handles": [
+  "getxbot",
   "grok",
   "openai",
-  "taroSwirl2026",
+  "taroswirl2026",
   "ww_jp_official"
  ],
  "patterns": [
-  "openai",
-  "grok",
-  "xai",
+  "ai-generated",
+  "ai绘画",
   "anthropic",
-  "official",
-  "官方",
-  "公式",
   "bot",
+  "grok",
+  "official",
+  "openai",
+  "xai",
+  "公式",
+  "官方",
   "机器人"
- ]
+ ],
+ "ids": [
+  "1655156808",
+  "4398626122"
+ ],
+ "note": "手动剔除的账号与规则；sync_x.py 会先过这里，永不入库",
+ "updated": "2026-11-19T22:05:46Z"
 }

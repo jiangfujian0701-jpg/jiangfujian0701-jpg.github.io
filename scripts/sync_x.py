@@ -121,15 +121,19 @@ def load_blocklist():
     p = _o.path.join(_o.path.dirname(_o.path.dirname(_o.path.abspath(__file__))), "scripts/blocklist.json")
     try:
         b = _j.load(open(p, encoding="utf-8"))
-        return {h.lower() for h in b.get("handles", [])}, {x.lower() for x in b.get("patterns", [])}
+        return ({h.lower() for h in b.get("handles", [])},
+                {x.lower() for x in b.get("patterns", [])},
+                {str(i) for i in b.get("ids", [])})
     except Exception:
-        return set(), set()
+        return set(), set(), set()
 
 
-BL_HANDLES, BL_PATTERNS = load_blocklist()
+BL_HANDLES, BL_PATTERNS, BL_IDS = load_blocklist()
 
 
 def blocked(u):
+    if str(u.get("id")) in BL_IDS:
+        return True
     sn = (u.get("screen_name") or "").lower()
     t = ((u.get("description") or "") + " " + (u.get("name") or "") + " " + sn).lower()
     return sn in BL_HANDLES or any(p in t for p in BL_PATTERNS)
