@@ -15,12 +15,19 @@ import android.view.View;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class MainActivity extends Activity {
     private static final String HOME = "https://jiangfujian0701-jpg.github.io/";
     private WebView web;
+    private volatile boolean drawerOpen = false;
+
+    public class HostBridge {
+        @JavascriptInterface
+        public void setDrawer(boolean open) { drawerOpen = open; }
+    }
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -80,6 +87,7 @@ public class MainActivity extends Activity {
             return true;
         });
         web.setLongClickable(false);
+        web.addJavascriptInterface(new HostBridge(), "AndroidHost");
         web.loadUrl(HOME);
         setContentView(web);
     }
@@ -95,6 +103,11 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && web != null && drawerOpen) {
+            web.evaluateJavascript("window.__nvCloseDrawer && window.__nvCloseDrawer()", null);
+            drawerOpen = false;
+            return true;
+        }
         if (keyCode == KeyEvent.KEYCODE_BACK && web != null && web.canGoBack()) {
             web.goBack();
             return true;
